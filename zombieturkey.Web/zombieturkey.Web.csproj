@@ -1,0 +1,93 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+	  <BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
+	  <BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
+
+  </PropertyGroup>
+
+  <!-- In debug, make builds faster by reducing optimizations -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <WasmNativeStrip>false</WasmNativeStrip>
+    <EmccCompileOptimizationFlag>-O1</EmccCompileOptimizationFlag>
+    <RunAOTCompilation>false</RunAOTCompilation>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>true</Optimize>
+    <WasmNativeStrip>true</WasmNativeStrip>
+	<EmccCompileOptimizationFlag>-O3</EmccCompileOptimizationFlag>
+    <EmccLinkOptimizationFlag>-O3</EmccLinkOptimizationFlag>
+    <RunAOTCompilation>true</RunAOTCompilation>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebuggerSupport>false</DebuggerSupport>
+		<EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
+		<EnableUnsafeUTF7Encoding>false</EnableUnsafeUTF7Encoding>
+		<EventSourceSupport>false</EventSourceSupport>
+		<HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
+		<InvariantGlobalization>true</InvariantGlobalization>
+		<MetadataUpdaterSupport>false</MetadataUpdaterSupport>
+		<UseNativeHttpHandler>true</UseNativeHttpHandler>
+		<UseSystemResourceKeys>true</UseSystemResourceKeys>
+		<PublishTrimmed>true</PublishTrimmed>
+		<TrimMode>link</TrimMode>
+		<TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
+		<BlazorWebAssemblyEnableLinking>true</BlazorWebAssemblyEnableLinking>
+
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<BlazorLinkerDescriptor Include="LinkerConfig.xml" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<TrimmableAssembly Include="Avalonia.Themes.Fluent" />
+		<TrimmableAssembly Include="Avalonia.Themes.Default" />
+		<TrimmableAssembly Include="Avalonia.DesignerSupport" />
+		<TrimmableAssembly Include="Avalonia.DesktopRuntime" />
+		<TrimmableAssembly Include="Avalonia.Dialogs" />
+		<TrimmableAssembly Include="Avalonia.Controls" />
+		<TrimmableAssembly Include="Avalonia.Remote.Protocol" />
+		<TrimmableAssembly Include="Avalonia.Animation" />
+		<TrimmableAssembly Include="Avalonia.Base" />
+		<TrimmableAssembly Include="Avalonia" />
+		<TrimmableAssembly Include="Avalonia.Input" />
+		<TrimmableAssembly Include="Avalonia.Interactivity" />
+		<TrimmableAssembly Include="Avalonia.Layout" />
+		<TrimmableAssembly Include="Avalonia.Markup" />
+		<TrimmableAssembly Include="Avalonia.Markup.Xaml" />
+		<TrimmableAssembly Include="Avalonia.MicroCom" />
+	<!--	
+		at least one of these breaks things
+		<TrimmableAssembly Include="Avalonia.OpenGL" />
+		<TrimmableAssembly Include="Avalonia.Skia" />
+		<TrimmableAssembly Include="Avalonia.Styling" />
+		<TrimmableAssembly Include="Avalonia.Visuals" />
+		<TrimmableAssembly Include="Avalonia.Web.Blazor" />
+		<TrimmableAssembly Include="HarfBuzzSharp" />
+		<TrimmableAssembly Include="JetBrains.Annotations" />-->
+	</ItemGroup> 
+	
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0" PrivateAssets="all" />
+    <PackageReference Include="Avalonia.Web.Blazor" Version="0.10.11-rc.2" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.5.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\zombieturkey\zombieturkey.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Interop\" />
+  </ItemGroup>
+
+</Project>
